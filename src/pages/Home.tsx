@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export function Home() {
   const [search, setSearch] = useState('');
@@ -12,6 +13,7 @@ export function Home() {
       <h2 data-testid="home-initial-message">
         Digite algum termo de pesquisa ou escolha uma categoria.
       </h2>
+      <Link to="/cart" data-testid="shopping-cart-button ">carrinho</Link>
 
     </div>
   );
