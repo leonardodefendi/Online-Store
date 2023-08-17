@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import BuscarCategorias from '../components/BuscarCategorias';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from '../components/ProductsList';
 
@@ -42,6 +43,7 @@ export function Home() {
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>)}
+        <BuscarCategorias />
       <Link to="/cart" data-testid="shopping-cart-button ">
         <button>carrinho</button>
       </Link>
