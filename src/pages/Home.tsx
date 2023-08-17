@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { getProductsFromCategoryAndQuery } from '../services/api';
+import { useState } from 'react';
 
 export function Home() {
   const [show, setShow] = useState(true);
