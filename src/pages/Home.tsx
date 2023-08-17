@@ -3,16 +3,6 @@ import { useState } from 'react';
 export function Home() {
   const [show, setShow] = useState(true);
   const [search, setSearch] = useState('');
-  // useEffect(() => {
-  //   const response = async () => {
-  //     const data = await getProductsFromCategoryAndQuery(search);
-  //     if (data.query !== '') {
-  //       setShow(false);
-  //     }
-  //   };
-  //   response();
-  // }, [search]);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
