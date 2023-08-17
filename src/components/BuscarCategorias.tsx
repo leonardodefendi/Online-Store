@@ -11,9 +11,20 @@ function BuscarCategorias() {
     };
     recebeCategorias();
   }, []);
+  console.log(valorCategorias);
 
   return (
-    <div>BuscarCategorias</div>
+    <>
+      {valorCategorias.map((e:any) => {
+        return (
+          <label data-testid="category" key={ e.id }>
+            <input type="radio" name="categorias" />
+            {e.name}
+
+          </label>
+        );
+      })}
+    </>
   );
 }
 
