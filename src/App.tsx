@@ -16,50 +16,29 @@ function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
 
   const handleClickAdicionar = ({ target }) => {
-    const acumularObjeto = { // find
-      id: target.id,
-      title: target.title,
-      price: target.name,
-      quantity: 1,
-    };
+    if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
+      const acumularObjeto = {
+        id: target.id,
+        title: target.title,
+        price: target.name,
+        quantity: 1,
+      };
 
-    // caso find retorne algo, preciso do map (if conferindo id)
-
-    // setProdutosCarrinho([
-    //   ...produtosCarrinho,
-    //   acumularObjeto,
-    // ]);
-
-    if (produtosCarrinho.find((i) => i.id !== target.id)) {
       setProdutosCarrinho([
         ...produtosCarrinho,
         acumularObjeto,
       ]);
     } else {
-      produtosCarrinho
-        .map((e) => e.id === target.id && { ...e, quantity: e.quantity + 1 });
+      const newCarrinho = produtosCarrinho
+        .map((productPlus) => (productPlus.id === target.id
+          ? { ...productPlus, quantity: productPlus.quantity + 1 } : productPlus));
+      setProdutosCarrinho([
+        ...newCarrinho,
+      ]);
     }
-
-    console.log(produtosCarrinho);
-
-    // .reduce((acc: ProdutosType[], cur) => {
-    //   if (!acc.some((i: ProdutosType) => i.id === cur.id)) {
-    //     acc.push({
-    //       ...cur,
-    //       quantity:,
-    //     });
-    //   }
-    //   return acc;
-    // }, []);
-
-    // console.log(acumularObjeto);
-
     localStorage.setItem(
       'produtos',
-      JSON.stringify([
-        ...produtosCarrinho,
-        acumularObjeto,
-      ]),
+      JSON.stringify(produtosCarrinho),
     );
   };
 
