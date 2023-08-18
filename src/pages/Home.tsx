@@ -4,7 +4,7 @@ import BuscarCategorias from '../components/BuscarCategorias';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from '../components/ProductsList';
 
-export function Home() {
+export function Home({ handle }: any) {
   const [search, setSearch] = useState('');
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
@@ -41,20 +41,31 @@ export function Home() {
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>)}
-      <BuscarCategorias />
+      <BuscarCategorias handle={ (event) => handle(event) } />
 
       <Link to="/cart" data-testid="shopping-cart-button ">
         <button>carrinho</button>
       </Link>
       <div>
         {showProducts ? infoProducts.map(({ id, title, thumbnail, price }) => (
-          <ProductsList
-            key={ id }
-            id={ id }
-            title={ title }
-            thumbnail={ thumbnail }
-            price={ price }
-          />
+          <div key={ id }>
+            <ProductsList
+              id={ id }
+              title={ title }
+              thumbnail={ thumbnail }
+              price={ price }
+            />
+            <button
+              id={ id }
+              title={ title }
+              name={ price }
+              data-testid="product-add-to-cart"
+              onClick={ (event) => handle(event) }
+            >
+              Adicionar ao carrinho
+
+            </button>
+          </div>
         )) : <p>Nenhum produto foi encontrado</p>}
 
       </div>
