@@ -8,6 +8,7 @@ export function Home() {
   const [search, setSearch] = useState('');
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
+  const [showProducts, setShowProducts] = useState(true);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -18,6 +19,7 @@ export function Home() {
     const data = await getProductsFromCategoryAndQuery('', search);
     setInfoProducts(data.results);
     if (search !== '')setShow(false);
+    if (data.results.length === 0) setShowProducts(false);
   };
 
   return (
@@ -45,7 +47,7 @@ export function Home() {
         <button>carrinho</button>
       </Link>
       <div>
-        {infoProducts.length > 0 ? infoProducts.map(({ id, title, thumbnail, price }) => (
+        {showProducts ? infoProducts.map(({ id, title, thumbnail, price }) => (
           <ProductsList
             key={ id }
             id={ id }
