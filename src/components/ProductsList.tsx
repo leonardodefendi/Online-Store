@@ -9,8 +9,8 @@ type ProductListType = {
 
 export function ProductsList({ title, thumbnail, price, id }: ProductListType) {
   return (
-    <Link to={ `/description/${id}` } data-testid="product-detail-link">
-      <div data-testid="product">
+    <div data-testid="product">
+      <Link to={ `/description/${id}` } data-testid="product-detail-link">
         <p>{title}</p>
         <img src={ thumbnail } alt="" />
         <p>
@@ -18,7 +18,7 @@ export function ProductsList({ title, thumbnail, price, id }: ProductListType) {
           {' '}
           {price}
         </p>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }

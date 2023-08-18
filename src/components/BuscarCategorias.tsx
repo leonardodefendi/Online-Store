@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from './ProductsList';
 
-function BuscarCategorias() {
+function BuscarCategorias({ handle }: any) {
   const [valorCategorias, setValorCategorias] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -35,13 +35,25 @@ function BuscarCategorias() {
         </label>
       ))}
       {categories.map(({ id, title, thumbnail, price }) => (
-        <ProductsList
-          key={ id }
-          id={ id }
-          title={ title }
-          thumbnail={ thumbnail }
-          price={ price }
-        />
+        <div key={ id }>
+
+          <ProductsList
+            id={ id }
+            title={ title }
+            thumbnail={ thumbnail }
+            price={ price }
+          />
+          <button
+            id={ id }
+            title={ title }
+            name={ price }
+            data-testid="product-add-to-cart"
+            onClick={ (event) => handle(event) }
+          >
+            Adicionar ao carrinho
+
+          </button>
+        </div>
       ))}
     </>
   );
