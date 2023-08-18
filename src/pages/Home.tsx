@@ -44,6 +44,7 @@ export function Home() {
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>)}
       <BuscarCategorias />
+
       <Link to="/cart" data-testid="shopping-cart-button ">
         <button>carrinho</button>
       </Link>
@@ -52,6 +53,7 @@ export function Home() {
         {infoProducts.map(({ id, title, thumbnail, price }) => (
           <ProductsList
             key={ id }
+            id={ id }
             title={ title }
             thumbnail={ thumbnail }
             price={ price }

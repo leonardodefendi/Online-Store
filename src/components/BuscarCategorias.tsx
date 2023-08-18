@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import { ProductsList } from './ProductsList';
 
 function BuscarCategorias() {
   const [valorCategorias, setValorCategorias] = useState([]);
-  const [categorys, setCategorys] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const recebeCategorias = async () => {
@@ -15,7 +16,7 @@ function BuscarCategorias() {
 
   const handleClick = async (e: string) => {
     const eachCategory = await getProductsFromCategoryAndQuery(e);
-    setCategorys(eachCategory.results);
+    setCategories(eachCategory.results);
   };
 
   return (
@@ -33,12 +34,14 @@ function BuscarCategorias() {
           {e.name}
         </label>
       ))}
-      {categorys.map(({ id, title, thumbnail, price }) => (
-        <div key={ id } data-testid="product">
-          <h2>{title}</h2>
-          <img src={ thumbnail } alt="" />
-          <p>{price}</p>
-        </div>
+      {categories.map(({ id, title, thumbnail, price }) => (
+        <ProductsList
+          key={ id }
+          id={ id }
+          title={ title }
+          thumbnail={ thumbnail }
+          price={ price }
+        />
       ))}
     </>
   );
