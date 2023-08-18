@@ -8,7 +8,6 @@ export function Home() {
   const [search, setSearch] = useState('');
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
-  const [notFoundProduct, setNotFoundProduct] = useState(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -18,10 +17,6 @@ export function Home() {
   const handleClick = async () => {
     const data = await getProductsFromCategoryAndQuery('', search);
     setInfoProducts(data.results);
-    setNotFoundProduct(false);
-    if (infoProducts) {
-      setShow(false);
-    } if (infoProducts.length === 0) setNotFoundProduct(true);
   };
 
   return (
@@ -49,8 +44,7 @@ export function Home() {
         <button>carrinho</button>
       </Link>
       <div>
-        {notFoundProduct && <p>Nenhum produto foi encontrado</p>}
-        {infoProducts.map(({ id, title, thumbnail, price }) => (
+        {infoProducts.length > 0 ? infoProducts.map(({ id, title, thumbnail, price }) => (
           <ProductsList
             key={ id }
             id={ id }
@@ -58,7 +52,7 @@ export function Home() {
             thumbnail={ thumbnail }
             price={ price }
           />
-        ))}
+        )) : <p>Nenhum produto foi encontrado</p>}
 
       </div>
 

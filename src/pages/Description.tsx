@@ -2,11 +2,9 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
 
-import { TypeProduct } from '../types/types';
-
 export function Description() {
   const [productDetails, setProductDetails] = useState<any>({});
-  // const [loading, setLoading]
+
   const { id } = useParams();
   useEffect(() => {
     const response = async () => {
@@ -14,8 +12,7 @@ export function Description() {
       setProductDetails(data);
     };
     response();
-  }, []);
-  console.log(productDetails);
+  }, [id]);
   return (
     <>
       <div>
