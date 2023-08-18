@@ -42,6 +42,8 @@ function App() {
     );
   };
 
+  console.log(produtosCarrinho);
+
   return (
     <Routes>
       <Route
@@ -50,7 +52,7 @@ function App() {
         /> }
         path="/"
       />
-      <Route element={ <Carrinho /> } path="/cart" />
+      <Route element={ <Carrinho produtos={ produtosCarrinho } /> } path="/cart" />
       <Route
         element={ <Description
           handleClickAdicionar={ (event) => handleClickAdicionar(event) }
