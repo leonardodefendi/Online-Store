@@ -18,7 +18,7 @@ export function Description() {
   console.log(productDetails);
   return (
     <>
-      <div data-testid="product-detail-link">
+      <div>
         <p data-testid="product-detail-name">{productDetails.title}</p>
         <img
           src={ `${productDetails.thumbnail}` }
