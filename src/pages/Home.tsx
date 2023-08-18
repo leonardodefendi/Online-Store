@@ -17,6 +17,7 @@ export function Home() {
   const handleClick = async () => {
     const data = await getProductsFromCategoryAndQuery('', search);
     setInfoProducts(data.results);
+    if (search !== '')setShow(false);
   };
 
   return (
