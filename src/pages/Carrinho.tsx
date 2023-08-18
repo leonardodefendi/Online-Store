@@ -17,8 +17,8 @@ function Carrinho({ produtos }: ProdutosType) {
       <div>
         {produtos.length > 0
         && produtos.map((e) => (
-          <div data-testid="shopping-cart-product-name" key={ e.id }>
-            <h2>{e.title}</h2>
+          <div key={ e.id }>
+            <h2 data-testid="shopping-cart-product-name">{e.title}</h2>
             <img src="" alt="" />
             <p>{e.price}</p>
             <p data-testid="shopping-cart-product-quantity">1</p>

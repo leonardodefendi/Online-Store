@@ -39,7 +39,12 @@ function App() {
         path="/"
       />
       <Route element={ <Carrinho produtos={ produtosCarrinho } /> } path="/cart" />
-      <Route element={ <Description /> } path="/description/:id" />
+      <Route
+        element={ <Description
+          handleClickAdicionar={ (event) => handleClickAdicionar(event) }
+        /> }
+        path="/description/:id"
+      />
     </Routes>
   );
 }

@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
 
-export function Description() {
+export function Description({ handleClickAdicionar }:any) {
   const [productDetails, setProductDetails] = useState<any>({});
 
   const { id } = useParams();
@@ -26,8 +26,18 @@ export function Description() {
         {productDetails.attributes && productDetails.attributes.map((detail:any) => (
           <p key={ detail.id }>{detail.value_name}</p>))}
       </div>
+      <button
+        id={ id }
+        title={ productDetails.title }
+        name={ productDetails.price }
+        data-testid="product-detail-add-to-cart"
+        onClick={ (event) => handleClickAdicionar(event) }
+      >
+        Adicionar ao carrinho
+
+      </button>
       <Link to="/cart">
-        <button data-testid="shopping-cart-button">Adicionar ao carrinho</button>
+        <button data-testid="shopping-cart-button">Ir para o carrinho</button>
       </Link>
     </>
   );
