@@ -1,27 +1,103 @@
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 type ProdutosType = {
-  produtos :{
-    title:string,
-    price: string,
-    id : string,
-  }[]
+  title:string,
+  price: string,
+  id : string,
+  quantity: number,
 };
 
-function Carrinho({ produtos }: ProdutosType) {
+function Carrinho() {
+  const [localStorageProducts, setLocalStorageProducts] = useState<ProdutosType[]>([]);
+
+  useEffect(() => {
+    const storage = localStorage.getItem('produtos');
+    const parse: ProdutosType[] = JSON.parse(storage as string);
+    setLocalStorageProducts(parse);
+  }, []);
+
+  const handleClick = ({ target }) => {
+    if (target.name === 'sum') {
+      const newStorage = localStorageProducts
+        .map((addProduct) => (addProduct.id === target.id
+          ? { ...addProduct, quantity: addProduct.quantity + 1 } : addProduct));
+      setLocalStorageProducts([
+        ...newStorage,
+      ]);
+      localStorage.setItem(
+        'produtos',
+        JSON.stringify(newStorage),
+      );
+    }
+
+    if (target.name === 'sub') {
+      const newStorage = localStorageProducts
+        .map((addProduct) => (addProduct.id === target.id
+          ? { ...addProduct,
+            quantity: (addProduct.quantity > 1 ? addProduct.quantity - 1 : 1) as number }
+          : addProduct));
+      setLocalStorageProducts([
+        ...newStorage,
+      ]);
+      localStorage.setItem(
+        'produtos',
+        JSON.stringify(newStorage),
+      );
+    }
+
+    if (target.name === 'remove') {
+      const newStorage = localStorageProducts
+        .filter((removeProduct) => removeProduct.id !== target.id);
+      setLocalStorageProducts([
+        ...newStorage,
+      ]);
+      localStorage.setItem(
+        'produtos',
+        JSON.stringify(newStorage),
+      );
+    }
+  };
+
   return (
     <main>
+      <Link to="/"><button>Home</button></Link>
       <div>
         <h1>Carrinho de compras</h1>
-        {produtos.length === 0
+        {localStorageProducts.length === 0
         && <h2 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h2>}
       </div>
       <div>
-        {produtos.length > 0
-        && produtos.map((e) => (
+        {localStorageProducts.map((e) => (
           <div key={ e.id }>
+            <button
+              data-testid="remove-product"
+              id={ e.id }
+              name="remove"
+              onClick={ handleClick }
+            >
+              Remover
+            </button>
             <h2 data-testid="shopping-cart-product-name">{e.title}</h2>
             <img src="" alt="" />
             <p>{e.price}</p>
-            <p data-testid="shopping-cart-product-quantity">1</p>
+            <p data-testid="shopping-cart-product-quantity">{e.quantity}</p>
+            <button
+              data-testid="product-decrease-quantity"
+              id={ e.id }
+              name="sub"
+              onClick={ handleClick }
+            >
+              -
+            </button>
+            <button
+              data-testid="product-increase-quantity"
+              id={ e.id }
+              name="sum"
+              onClick={ handleClick }
+            >
+              +
+            </button>
           </div>
         ))}
       </div>

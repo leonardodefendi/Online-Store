@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Home } from './pages/Home';
@@ -16,14 +16,13 @@ function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
 
   const handleClickAdicionar = ({ target }) => {
+    const acumularObjeto = {
+      id: target.id,
+      title: target.title,
+      price: target.name,
+      quantity: 1,
+    };
     if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
-      const acumularObjeto = {
-        id: target.id,
-        title: target.title,
-        price: target.name,
-        quantity: 1,
-      };
-
       setProdutosCarrinho([
         ...produtosCarrinho,
         acumularObjeto,
@@ -36,13 +35,8 @@ function App() {
         ...newCarrinho,
       ]);
     }
-    localStorage.setItem(
-      'produtos',
-      JSON.stringify(produtosCarrinho),
-    );
+    localStorage.setItem('produtos', JSON.stringify(produtosCarrinho));
   };
-
-  console.log(produtosCarrinho);
 
   return (
     <Routes>
@@ -52,7 +46,10 @@ function App() {
         /> }
         path="/"
       />
-      <Route element={ <Carrinho produtos={ produtosCarrinho } /> } path="/cart" />
+      <Route
+        element={ <Carrinho /> }
+        path="/cart"
+      />
       <Route
         element={ <Description
           handleClickAdicionar={ (event) => handleClickAdicionar(event) }
