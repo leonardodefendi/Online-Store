@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Home } from './pages/Home';
@@ -6,28 +6,42 @@ import Carrinho from './pages/Carrinho';
 import { Description } from './pages/Description';
 
 type ProdutosType = {
-  produtos :{
-    title:string,
-    price: string,
-    id : string,
-  }
+  title:string,
+  price: string,
+  id : string,
+  quantity: number,
 };
 
 function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
 
-  const handleClickAdicionar = (event) => {
-    const acumularObjeto = {
-      id: event.target.id,
-      title: event.target.title,
-      price: event.target.name };
+  const handleClickAdicionar = ({ target }) => {
+    if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
+      const acumularObjeto = {
+        id: target.id,
+        title: target.title,
+        price: target.name,
+        quantity: 1,
+      };
 
-    setProdutosCarrinho([...produtosCarrinho, acumularObjeto]);
+      setProdutosCarrinho([
+        ...produtosCarrinho,
+        acumularObjeto,
+      ]);
+    } else {
+      const newCarrinho = produtosCarrinho
+        .map((productPlus) => (productPlus.id === target.id
+          ? { ...productPlus, quantity: productPlus.quantity + 1 } : productPlus));
+      setProdutosCarrinho([
+        ...newCarrinho,
+      ]);
+    }
     localStorage.setItem(
       'produtos',
-      JSON.stringify([...produtosCarrinho, acumularObjeto]),
+      JSON.stringify(produtosCarrinho),
     );
   };
+
   console.log(produtosCarrinho);
 
   return (
