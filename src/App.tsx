@@ -15,13 +15,21 @@ type ProdutosType = {
 function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
 
-  const handleClickAdicionar = ({ target }) => {
+  useEffect(() => {
+    if (produtosCarrinho.length > 0) {
+      localStorage.setItem('produtos', JSON.stringify(produtosCarrinho));
+    }
+  }, [produtosCarrinho]);
+
+  const handleClickAdicionar = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as HTMLButtonElement;
     const acumularObjeto = {
       id: target.id,
       title: target.title,
       price: target.name,
       quantity: 1,
     };
+
     if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
       setProdutosCarrinho([
         ...produtosCarrinho,
@@ -35,14 +43,14 @@ function App() {
         ...newCarrinho,
       ]);
     }
-    localStorage.setItem('produtos', JSON.stringify(produtosCarrinho));
   };
 
   return (
     <Routes>
       <Route
         element={ <Home
-          handle={ (event) => handleClickAdicionar(event) }
+          handle={ (event:
+          React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
         /> }
         path="/"
       />
@@ -52,7 +60,8 @@ function App() {
       />
       <Route
         element={ <Description
-          handleClickAdicionar={ (event) => handleClickAdicionar(event) }
+          handleClickAdicionar={ (event:
+          React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
         /> }
         path="/description/:id"
       />

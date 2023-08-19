@@ -4,7 +4,11 @@ import BuscarCategorias from '../components/BuscarCategorias';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from '../components/ProductsList';
 
-export function Home({ handle }: any) {
+interface HomeProps {
+  handle: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+export function Home({ handle }: HomeProps) {
   const [search, setSearch] = useState('');
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
@@ -41,7 +45,10 @@ export function Home({ handle }: any) {
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>)}
-      <BuscarCategorias handle={ (event) => handle(event) } />
+      <BuscarCategorias
+        handle={ (event:
+        React.MouseEvent<HTMLButtonElement>) => handle(event) }
+      />
 
       <Link to="/cart" data-testid="shopping-cart-button ">
         <button>carrinho</button>

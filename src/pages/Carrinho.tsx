@@ -12,12 +12,15 @@ function Carrinho() {
   const [localStorageProducts, setLocalStorageProducts] = useState<ProdutosType[]>([]);
 
   useEffect(() => {
-    const storage = localStorage.getItem('produtos');
-    const parse: ProdutosType[] = JSON.parse(storage as string);
-    setLocalStorageProducts(parse);
+    if (localStorage.length) {
+      const storage = localStorage.getItem('produtos');
+      const parse: ProdutosType[] = JSON.parse(storage as string);
+      setLocalStorageProducts(parse);
+    }
   }, []);
 
-  const handleClick = ({ target }) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as HTMLButtonElement;
     if (target.name === 'sum') {
       const newStorage = localStorageProducts
         .map((addProduct) => (addProduct.id === target.id
@@ -64,7 +67,7 @@ function Carrinho() {
       <Link to="/"><button>Home</button></Link>
       <div>
         <h1>Carrinho de compras</h1>
-        {localStorageProducts.length === 0
+        {localStorage.length === 0
         && <h2 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h2>}
       </div>
       <div>
