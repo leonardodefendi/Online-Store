@@ -10,6 +10,7 @@ type ProdutosType = {
     title:string,
     price: string,
     id : string,
+    quantitaty:number,
   }
 };
 
@@ -20,7 +21,9 @@ function App() {
     const acumularObjeto = {
       id: event.target.id,
       title: event.target.title,
-      price: event.target.name };
+      price: event.target.name,
+      quantity: 1,
+    };
 
     setProdutosCarrinho([...produtosCarrinho, acumularObjeto]);
     localStorage.setItem(
@@ -28,7 +31,6 @@ function App() {
       JSON.stringify([...produtosCarrinho, acumularObjeto]),
     );
   };
-  console.log(produtosCarrinho);
 
   return (
     <Routes>
@@ -38,7 +40,7 @@ function App() {
         /> }
         path="/"
       />
-      <Route element={ <Carrinho produtos={ produtosCarrinho } /> } path="/cart" />
+      <Route element={ <Carrinho /> } path="/cart" />
       <Route
         element={ <Description
           handleClickAdicionar={ (event) => handleClickAdicionar(event) }
