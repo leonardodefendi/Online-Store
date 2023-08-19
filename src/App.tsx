@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import { Home } from './pages/Home';
@@ -15,15 +15,22 @@ type ProdutosType = {
 function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
 
-  const handleClickAdicionar = ({ target }) => {
-    if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
-      const acumularObjeto = {
-        id: target.id,
-        title: target.title,
-        price: target.name,
-        quantity: 1,
-      };
+  useEffect(() => {
+    if (produtosCarrinho.length > 0) {
+      localStorage.setItem('produtos', JSON.stringify(produtosCarrinho));
+    }
+  }, [produtosCarrinho]);
 
+  const handleClickAdicionar = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as HTMLButtonElement;
+    const acumularObjeto = {
+      id: target.id,
+      title: target.title,
+      price: target.name,
+      quantity: 1,
+    };
+
+    if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
       setProdutosCarrinho([
         ...produtosCarrinho,
         acumularObjeto,
@@ -36,26 +43,25 @@ function App() {
         ...newCarrinho,
       ]);
     }
-    localStorage.setItem(
-      'produtos',
-      JSON.stringify(produtosCarrinho),
-    );
   };
-
-  console.log(produtosCarrinho);
 
   return (
     <Routes>
       <Route
         element={ <Home
-          handle={ (event) => handleClickAdicionar(event) }
+          handle={ (event:
+          React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
         /> }
         path="/"
       />
-      <Route element={ <Carrinho produtos={ produtosCarrinho } /> } path="/cart" />
+      <Route
+        element={ <Carrinho /> }
+        path="/cart"
+      />
       <Route
         element={ <Description
-          handleClickAdicionar={ (event) => handleClickAdicionar(event) }
+          handleClickAdicionar={ (event:
+          React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
         /> }
         path="/description/:id"
       />
