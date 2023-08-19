@@ -9,65 +9,94 @@ type ProdutosType = {
 };
 
 function Carrinho() {
-  const [localStorageProduct, setLocalStoargeProduct] = useState<ProdutosType[]>();
-  const [product, setProduct] = useState<any>();
+  const [localStorageProducts, setLocalStorageProducts] = useState<ProdutosType[]>([]);
 
   useEffect(() => {
-    const storage = localStorage.getItem('produtos');
-    if (storage) {
-      const jsonResponse = JSON.parse(storage);
-      const reduce: ProdutosType = jsonResponse.reduce((acc, curr) => {
-        const filtred = acc.filter(({ id }) => id === curr.id).length + 1;
-        const count = filtred;
-        // const obj = {
-        //   [curr.id]: acc.filter(({ id }) => id === curr.id).length,
-        // };
-        if (!acc.some((i) => i.id === curr.id)) {
-          acc.push({ title: curr.title,
-            price: curr.price,
-            id: curr.id,
-            quantity: count });
-        }
-        return acc;
-      }, []);
-      console.log(reduce);
-      setLocalStoargeProduct(reduce);
+    if (localStorage.length) {
+      const storage = localStorage.getItem('produtos');
+      const parse: ProdutosType[] = JSON.parse(storage as string);
+      setLocalStorageProducts(parse);
     }
   }, []);
 
-  const handleClick = ({ target }) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const target = event.target as HTMLButtonElement;
+    if (target.name === 'sum') {
+      const newStorage = localStorageProducts
+        .map((addProduct) => (addProduct.id === target.id
+          ? { ...addProduct, quantity: addProduct.quantity + 1 } : addProduct));
+      setLocalStorageProducts([
+        ...newStorage,
+      ]);
+      localStorage.setItem(
+        'produtos',
+        JSON.stringify(newStorage),
+      );
+    }
+
     if (target.name === 'sub') {
-      setProduct({
-        ...product,
-        [target.id]: target,
-      });
+      const newStorage = localStorageProducts
+        .map((addProduct) => (addProduct.id === target.id
+          ? { ...addProduct,
+            quantity: (addProduct.quantity > 1 ? addProduct.quantity - 1 : 1) as number }
+          : addProduct));
+      setLocalStorageProducts([
+        ...newStorage,
+      ]);
+      localStorage.setItem(
+        'produtos',
+        JSON.stringify(newStorage),
+      );
+    }
+
+    if (target.name === 'remove') {
+      const newStorage = localStorageProducts
+        .filter((removeProduct) => removeProduct.id !== target.id);
+      setLocalStorageProducts([
+        ...newStorage,
+      ]);
+      localStorage.setItem(
+        'produtos',
+        JSON.stringify(newStorage),
+      );
     }
   };
+
   return (
     <main>
       <Link to="/"><button>Home</button></Link>
       <div>
         <h1>Carrinho de compras</h1>
-        {localStorageProduct && localStorageProduct.length === 0
+        {localStorage.length === 0
         && <h2 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h2>}
       </div>
       <div>
-        {localStorageProduct && localStorageProduct.map((e, index) => (
-          <div key={ index }>
+        {localStorageProducts.map((e) => (
+          <div key={ e.id }>
+            <button
+              data-testid="remove-product"
+              id={ e.id }
+              name="remove"
+              onClick={ handleClick }
+            >
+              Remover
+            </button>
             <h2 data-testid="shopping-cart-product-name">{e.title}</h2>
             <img src="" alt="" />
             <p>{e.price}</p>
             <p data-testid="shopping-cart-product-quantity">{e.quantity}</p>
             <button
-              name="sub"
+              data-testid="product-decrease-quantity"
               id={ e.id }
+              name="sub"
               onClick={ handleClick }
             >
               -
             </button>
             <button
-              name="sum"
+              data-testid="product-increase-quantity"
               id={ e.id }
+              name="sum"
               onClick={ handleClick }
             >
               +
