@@ -11,6 +11,9 @@ type ProdutosType = {
 function Carrinho() {
   const [localStorageProducts, setLocalStorageProducts] = useState<ProdutosType[]>([]);
 
+  const getLocalStorage = localStorage.getItem('produtos');
+  const locaStorageExist = getLocalStorage && JSON.parse(getLocalStorage);
+
   useEffect(() => {
     if (localStorage.length) {
       const storage = localStorage.getItem('produtos');
@@ -67,11 +70,11 @@ function Carrinho() {
       <Link to="/"><button>Home</button></Link>
       <div>
         <h1>Carrinho de compras</h1>
-        {localStorage.length === 0
+        {!locaStorageExist
         && <h2 data-testid="shopping-cart-empty-message">Seu carrinho está vazio</h2>}
       </div>
       <div>
-        {localStorageProducts.map((e) => (
+        {localStorageProducts && localStorageProducts.map((e) => (
           <div key={ e.id }>
             <button
               data-testid="remove-product"
