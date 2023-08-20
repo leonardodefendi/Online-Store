@@ -103,6 +103,13 @@ function Carrinho() {
             </button>
           </div>
         ))}
+        <Link
+          to="/checkout"
+          data-testid="checkout-products"
+        >
+          <button>Finalizar compra</button>
+
+        </Link>
       </div>
     </main>
   );

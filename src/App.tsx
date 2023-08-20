@@ -4,6 +4,7 @@ import './App.css';
 import { Home } from './pages/Home';
 import Carrinho from './pages/Carrinho';
 import { Description } from './pages/Description';
+import Checkout from './pages/Checkout';
 
 type ProdutosType = {
   title:string,
@@ -65,6 +66,7 @@ function App() {
         /> }
         path="/description/:id"
       />
+      <Route element={ <Checkout /> } path="/checkout" />
     </Routes>
   );
 }
