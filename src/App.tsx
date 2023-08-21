@@ -17,7 +17,10 @@ function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
 
   useEffect(() => {
-    if (produtosCarrinho.length > 0) {
+    const response = JSON.parse(localStorage.getItem('produtos') as string);
+    if (produtosCarrinho.length === 0 && response && response.length > 0) {
+      setProdutosCarrinho(response);
+    } if (produtosCarrinho.length > 0) {
       localStorage.setItem('produtos', JSON.stringify(produtosCarrinho));
     }
   }, [produtosCarrinho]);
@@ -30,7 +33,6 @@ function App() {
       price: target.name,
       quantity: 1,
     };
-
     if (!produtosCarrinho.some((produto) => produto.id === target.id)) {
       setProdutosCarrinho([
         ...produtosCarrinho,
@@ -52,6 +54,7 @@ function App() {
         element={ <Home
           handle={ (event:
           React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
+          produtosCarrinho={ produtosCarrinho }
         /> }
         path="/"
       />
