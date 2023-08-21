@@ -34,7 +34,7 @@ function BuscarCategorias({ handle }: any) {
           {e.name}
         </label>
       ))}
-      {categories.map(({ id, title, thumbnail, price }) => (
+      {categories.map(({ id, title, thumbnail, price, shipping: { free_shipping } }) => (
         <div key={ id }>
 
           <ProductsList
@@ -42,6 +42,7 @@ function BuscarCategorias({ handle }: any) {
             title={ title }
             thumbnail={ thumbnail }
             price={ price }
+            shipping={ free_shipping }
           />
           <button
             id={ id }

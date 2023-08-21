@@ -21,14 +21,7 @@ export function Home({ handle, quantidade }: HomeProps) {
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
   const [showProducts, setShowProducts] = useState(true);
-  const [recoveryCart, setRecoveryCart] = useState<ProdutosType[]>();
-  // useEffect(() => {
-  //   const response = localStorage.getItem('produtos');
-  //   if (response) {
-  //     const parse: ProdutosType[] = JSON.parse(response);
-  //     setRecoveryCart(parse);
-  //   }
-  // }, [produtosCarrinho]);
+
   console.log(quantidade);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -37,6 +30,7 @@ export function Home({ handle, quantidade }: HomeProps) {
 
   const handleClick = async () => {
     const data = await getProductsFromCategoryAndQuery('', search);
+    console.log(data);
     setInfoProducts(data.results);
     if (search !== '')setShow(false);
     if (data.results.length === 0) setShowProducts(false);
@@ -74,25 +68,27 @@ export function Home({ handle, quantidade }: HomeProps) {
       />
 
       <div>
-        {showProducts ? infoProducts.map(({ id, title, thumbnail, price }) => (
-          <div key={ id }>
-            <ProductsList
-              id={ id }
-              title={ title }
-              thumbnail={ thumbnail }
-              price={ price }
-            />
-            <button
-              id={ id }
-              title={ title }
-              name={ price }
-              data-testid="product-add-to-cart"
-              onClick={ (event) => handle(event) }
-            >
-              Adicionar ao carrinho
+        {showProducts ? infoProducts.map(({ id, title, thumbnail, price,
+          shipping: { free_shipping } }) => (
+            <div key={ id }>
+              <ProductsList
+                id={ id }
+                title={ title }
+                thumbnail={ thumbnail }
+                price={ price }
+                shipping={ free_shipping }
+              />
+              <button
+                id={ id }
+                title={ title }
+                name={ price }
+                data-testid="product-add-to-cart"
+                onClick={ (event) => handle(event) }
+              >
+                Adicionar ao carrinho
 
-            </button>
-          </div>
+              </button>
+            </div>
         )) : <p>Nenhum produto foi encontrado</p>}
 
       </div>
