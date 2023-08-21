@@ -4,3 +4,9 @@ export type TypeProduct = {
   price:number,
   attributes?:[]
 };
+
+export type TypeReviewProduct = {
+  email: string,
+  text: string,
+  rating: string,
+};

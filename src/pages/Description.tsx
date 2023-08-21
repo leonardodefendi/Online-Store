@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
+import Reviews from '../components/Reviews';
 
 export function Description({ handleClickAdicionar }:any) {
   const [productDetails, setProductDetails] = useState<any>({});
@@ -39,6 +40,7 @@ export function Description({ handleClickAdicionar }:any) {
       <Link to="/cart">
         <button data-testid="shopping-cart-button">Ir para o carrinho</button>
       </Link>
+      <Reviews />
     </>
   );
 }
