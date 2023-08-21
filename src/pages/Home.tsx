@@ -21,15 +21,6 @@ export function Home({ handle, quantidade }: HomeProps) {
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
   const [showProducts, setShowProducts] = useState(true);
-  const [recoveryCart, setRecoveryCart] = useState<ProdutosType[]>();
-  // useEffect(() => {
-  //   const response = localStorage.getItem('produtos');
-  //   if (response) {
-  //     const parse: ProdutosType[] = JSON.parse(response);
-  //     setRecoveryCart(parse);
-  //   }
-  // }, [produtosCarrinho]);
-  console.log(quantidade);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
