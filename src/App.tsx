@@ -52,6 +52,7 @@ function App() {
         element={ <Home
           handle={ (event:
           React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
+          produtosCarrinho={ produtosCarrinho }
         /> }
         path="/"
       />
