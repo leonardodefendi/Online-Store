@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from './ProductsList';
+import { Category } from '../styles/buscarcategorias.styled';
 
 function BuscarCategorias({ handle }: any) {
   const [valorCategorias, setValorCategorias] = useState([]);
@@ -22,17 +23,19 @@ function BuscarCategorias({ handle }: any) {
   return (
     <>
       {valorCategorias.map((e:any) => (
-        <label
-          data-testid="category"
-          key={ e.id }
-        >
-          <input
-            type="radio"
-            name="categorias"
-            onClick={ () => handleClick(e.id) }
-          />
-          {e.name}
-        </label>
+        <Category key={ e.id }>
+          <label
+            data-testid="category"
+
+          >
+            <input
+              type="radio"
+              name="categorias"
+              onClick={ () => handleClick(e.id) }
+            />
+            {e.name}
+          </label>
+        </Category>
       ))}
       {categories.map(({ id, title, thumbnail, price, shipping: { free_shipping } }) => (
         <div key={ id }>

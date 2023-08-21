@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import BuscarCategorias from '../components/BuscarCategorias';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from '../components/ProductsList';
+import { HomeContainer, CategoryContainer,
+  Input, ButtonSearch, InputContainer, CarrinhoBtn } from '../styles/home.styled';
 
 type ProdutosType = {
   title:string,
@@ -35,35 +37,40 @@ export function Home({ handle, quantidade }: HomeProps) {
   };
 
   return (
-    <div>
-      <input
-        type="text"
-        onChange={ handleChange }
-        value={ search }
-        data-testid="query-input"
-      />
-      <button
-        onClick={ handleClick }
-        data-testid="query-button"
-      >
-        Pesquisar
+    <HomeContainer>
+      <InputContainer>
+        <Input
+          type="text"
+          onChange={ handleChange }
+          value={ search }
+          data-testid="query-input"
+        />
+        <ButtonSearch
+          onClick={ handleClick }
+          data-testid="query-button"
+        >
+          Pesquisar
 
-      </button>
+        </ButtonSearch>
+        <Link to="/cart" data-testid="shopping-cart-button ">
+          <CarrinhoBtn>Carrinho</CarrinhoBtn>
+        </Link>
+      </InputContainer>
       {show && (
         <h2 data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </h2>)}
-      <Link to="/cart" data-testid="shopping-cart-button ">
-        <button>Carrinho</button>
-      </Link>
+
       <p data-testid="shopping-cart-size">
         {quantidade}
 
       </p>
-      <BuscarCategorias
-        handle={ (event:
-        React.MouseEvent<HTMLButtonElement>) => handle(event) }
-      />
+      <CategoryContainer>
+        <BuscarCategorias
+          handle={ (event:
+          React.MouseEvent<HTMLButtonElement>) => handle(event) }
+        />
+      </CategoryContainer>
 
       <div>
         {showProducts ? infoProducts.map(({ id, title, thumbnail, price,
@@ -91,6 +98,6 @@ export function Home({ handle, quantidade }: HomeProps) {
 
       </div>
 
-    </div>
+    </HomeContainer>
   );
 }
