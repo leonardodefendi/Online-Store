@@ -13,24 +13,23 @@ type ProdutosType = {
 
 interface HomeProps {
   handle: (event: React.MouseEvent<HTMLButtonElement>) => void;
-  produtosCarrinho: ProdutosType[]
+  quantidade: number | undefined;
 }
 
-export function Home({ handle, produtosCarrinho }: HomeProps) {
+export function Home({ handle, quantidade }: HomeProps) {
   const [search, setSearch] = useState('');
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
   const [showProducts, setShowProducts] = useState(true);
   const [recoveryCart, setRecoveryCart] = useState<ProdutosType[]>();
-  useEffect(() => {
-    setTimeout(() => {
-      const response = localStorage.getItem('produtos');
-      if (response) {
-        const parse: ProdutosType[] = JSON.parse(response);
-        setRecoveryCart(parse);
-      }
-    }, 100);
-  }, [produtosCarrinho]);
+  // useEffect(() => {
+  //   const response = localStorage.getItem('produtos');
+  //   if (response) {
+  //     const parse: ProdutosType[] = JSON.parse(response);
+  //     setRecoveryCart(parse);
+  //   }
+  // }, [produtosCarrinho]);
+  console.log(quantidade);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
@@ -66,10 +65,7 @@ export function Home({ handle, produtosCarrinho }: HomeProps) {
         <button>Carrinho</button>
       </Link>
       <p data-testid="shopping-cart-size">
-        {recoveryCart && recoveryCart.reduce((acc, curr) => {
-          acc += curr.quantity;
-          return acc;
-        }, 0) }
+        {quantidade}
 
       </p>
       <BuscarCategorias
