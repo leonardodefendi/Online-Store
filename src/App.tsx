@@ -15,15 +15,25 @@ type ProdutosType = {
 
 function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
+  const [quantidade, setQuantidade] = useState<number>();
 
   useEffect(() => {
     const response = JSON.parse(localStorage.getItem('produtos') as string);
     if (produtosCarrinho.length === 0 && response && response.length > 0) {
       setProdutosCarrinho(response);
-    } if (produtosCarrinho.length > 0) {
+    }
+    if (produtosCarrinho.length > 0) {
       localStorage.setItem('produtos', JSON.stringify(produtosCarrinho));
+      const data = produtosCarrinho.reduce((acc, curr) => {
+        acc += curr.quantity;
+        return acc;
+      }, 0);
+      localStorage.setItem('quantidade', JSON.stringify(data));
+      setQuantidade(data);
     }
   }, [produtosCarrinho]);
+
+  console.log(quantidade);
 
   const handleClickAdicionar = (event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.target as HTMLButtonElement;
@@ -54,7 +64,7 @@ function App() {
         element={ <Home
           handle={ (event:
           React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
-          produtosCarrinho={ produtosCarrinho }
+          quantidade={ quantidade }
         /> }
         path="/"
       />
@@ -66,6 +76,7 @@ function App() {
         element={ <Description
           handleClickAdicionar={ (event:
           React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
+          quantidade={ quantidade }
         /> }
         path="/description/:id"
       />

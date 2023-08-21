@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { getProductById } from '../services/api';
 import Reviews from '../components/Reviews';
 
-export function Description({ handleClickAdicionar }:any) {
+export function Description({ handleClickAdicionar, quantidade }:any) {
   const [productDetails, setProductDetails] = useState<any>({});
 
   const { id } = useParams();
@@ -40,6 +40,10 @@ export function Description({ handleClickAdicionar }:any) {
       <Link to="/cart">
         <button data-testid="shopping-cart-button">Ir para o carrinho</button>
       </Link>
+      <p data-testid="shopping-cart-size">
+        {quantidade}
+
+      </p>
       <Reviews />
     </>
   );
