@@ -33,8 +33,6 @@ function App() {
     }
   }, [produtosCarrinho]);
 
-  console.log(quantidade);
-
   const handleClickAdicionar = (event: React.MouseEvent<HTMLButtonElement>) => {
     const target = event.target as HTMLButtonElement;
     const acumularObjeto = {

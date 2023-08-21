@@ -27,6 +27,8 @@ export function Description({ handleClickAdicionar, quantidade }:any) {
         {productDetails.attributes && productDetails.attributes.map((detail:any) => (
           <p key={ detail.id }>{detail.value_name}</p>))}
       </div>
+      {productDetails.shipping.free_shipping
+      && <p data-testid="free-shipping">Frete Gratis</p>}
       <button
         id={ id }
         title={ productDetails.title }

@@ -4,10 +4,12 @@ type ProductListType = {
   title: string,
   thumbnail:string,
   price:number,
-  id:string
+  id:string,
+  shipping: boolean,
 };
 
-export function ProductsList({ title, thumbnail, price, id }: ProductListType) {
+export function ProductsList({ title, thumbnail, price,
+  id, shipping }: ProductListType) {
   return (
     <div data-testid="product">
       <Link to={ `/description/${id}` } data-testid="product-detail-link">
@@ -18,6 +20,7 @@ export function ProductsList({ title, thumbnail, price, id }: ProductListType) {
           {' '}
           {price}
         </p>
+        {shipping && <p data-testid="free-shipping">Frete Gratis</p>}
       </Link>
     </div>
   );
