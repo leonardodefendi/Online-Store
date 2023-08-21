@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import { ThemeProvider } from 'styled-components';
+import { FiMoon } from 'react-icons/fi';
+import { BsLightningCharge } from 'react-icons/bs';
 import { Home } from './pages/Home';
 import Carrinho from './pages/Carrinho';
 import { Description } from './pages/Description';
 import Checkout from './pages/Checkout';
+import dark from './styles/themes/dark';
+import ligth from './styles/themes/light';
+import GlobalStyles from './styles/global';
 
 type ProdutosType = {
   title:string,
@@ -16,6 +22,8 @@ type ProdutosType = {
 function App() {
   const [produtosCarrinho, setProdutosCarrinho] = useState<ProdutosType[]>([]);
   const [quantidade, setQuantidade] = useState<number>();
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [theme, setTheme] = useState<boolean>(false);
 
   useEffect(() => {
     const response = JSON.parse(localStorage.getItem('produtos') as string);
@@ -56,30 +64,41 @@ function App() {
     }
   };
 
+  const toggleTheme = () => {
+    setTheme(!theme);
+    setIsDarkTheme((prevState) => !prevState);
+  };
+
   return (
-    <Routes>
-      <Route
-        element={ <Home
-          handle={ (event:
-          React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
-          quantidade={ quantidade }
-        /> }
-        path="/"
-      />
-      <Route
-        element={ <Carrinho /> }
-        path="/cart"
-      />
-      <Route
-        element={ <Description
-          handleClickAdicionar={ (event:
-          React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
-          quantidade={ quantidade }
-        /> }
-        path="/description/:id"
-      />
-      <Route element={ <Checkout /> } path="/checkout" />
-    </Routes>
+    <ThemeProvider theme={ isDarkTheme ? dark : ligth }>
+      <GlobalStyles />
+      <button onClick={ toggleTheme }>
+        {!theme ? <FiMoon /> : <BsLightningCharge />}
+      </button>
+      <Routes>
+        <Route
+          element={ <Home
+            handle={ (event:
+            React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
+            quantidade={ quantidade }
+          /> }
+          path="/"
+        />
+        <Route
+          element={ <Carrinho /> }
+          path="/cart"
+        />
+        <Route
+          element={ <Description
+            handleClickAdicionar={ (event:
+            React.MouseEvent<HTMLButtonElement>) => handleClickAdicionar(event) }
+            quantidade={ quantidade }
+          /> }
+          path="/description/:id"
+        />
+        <Route element={ <Checkout /> } path="/checkout" />
+      </Routes>
+    </ThemeProvider>
   );
 }
 

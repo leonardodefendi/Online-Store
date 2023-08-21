@@ -21,8 +21,6 @@ export function Home({ handle, quantidade }: HomeProps) {
   const [infoProducts, setInfoProducts] = useState([]);
   const [show, setShow] = useState(true);
   const [showProducts, setShowProducts] = useState(true);
-
-  console.log(quantidade);
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
