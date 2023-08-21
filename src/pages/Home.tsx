@@ -31,7 +31,6 @@ export function Home({ handle, produtosCarrinho }: HomeProps) {
       }
     }, 100);
   }, [produtosCarrinho]);
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setSearch(value);
