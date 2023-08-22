@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { ProductCard, ShippingFree } from '../styles/productslist.styled';
 
 type ProductListType = {
   title: string,
@@ -12,16 +13,17 @@ export function ProductsList({ title, thumbnail, price,
   id, shipping }: ProductListType) {
   return (
     <div data-testid="product">
-      <Link to={ `/description/${id}` } data-testid="product-detail-link">
-        <p>{title}</p>
+      <ProductCard to={ `/description/${id}` } data-testid="product-detail-link">
         <img src={ thumbnail } alt="" />
-        <p>
+        <p className="header-product">{title}</p>
+        <p className="price-product">
           R$
           {' '}
           {price}
         </p>
-        {shipping && <p data-testid="free-shipping">Frete Gratis</p>}
-      </Link>
+        {shipping
+         && <ShippingFree data-testid="free-shipping">Frete Gratis</ShippingFree>}
+      </ProductCard>
     </div>
   );
 }

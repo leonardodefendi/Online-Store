@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import BsFillCartCheckFill from 'react-icons/bs';
 import BuscarCategorias from '../components/BuscarCategorias';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from '../components/ProductsList';
 import { HomeContainer, CategoryContainer,
-  Input, ButtonSearch, InputContainer, CarrinhoBtn } from '../styles/home.styled';
+  Input, ButtonSearch, Header, CarrinhoBtn,
+  InputContainer, Message, ProductsContainer,
+  Product, ProductList } from '../styles/home.styled';
 
 type ProdutosType = {
   title:string,
@@ -38,65 +41,69 @@ export function Home({ handle, quantidade }: HomeProps) {
 
   return (
     <HomeContainer>
-      <InputContainer>
-        <Input
-          type="text"
-          onChange={ handleChange }
-          value={ search }
-          data-testid="query-input"
-        />
-        <ButtonSearch
-          onClick={ handleClick }
-          data-testid="query-button"
-        >
-          Pesquisar
+      <Header>
+        <InputContainer>
+          <Input
+            type="text"
+            onChange={ handleChange }
+            value={ search }
+            data-testid="query-input"
+          />
+          <ButtonSearch
+            onClick={ handleClick }
+            data-testid="query-button"
+          >
+            Pesquisar
 
-        </ButtonSearch>
+          </ButtonSearch>
+        </InputContainer>
+        <h1>Frontend Online Store</h1>
         <Link to="/cart" data-testid="shopping-cart-button ">
-          <CarrinhoBtn>Carrinho</CarrinhoBtn>
+          <CarrinhoBtn>
+            Carrinho
+          </CarrinhoBtn>
+          <p data-testid="shopping-cart-size">
+            {quantidade}
+
+          </p>
         </Link>
-      </InputContainer>
+      </Header>
       {show && (
-        <h2 data-testid="home-initial-message">
+        <Message data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
-        </h2>)}
+        </Message>)}
 
-      <p data-testid="shopping-cart-size">
-        {quantidade}
+      <ProductsContainer>
 
-      </p>
-      <CategoryContainer>
         <BuscarCategorias
           handle={ (event:
           React.MouseEvent<HTMLButtonElement>) => handle(event) }
         />
-      </CategoryContainer>
+        <ProductList>
+          {showProducts ? infoProducts.map(({ id, title, thumbnail, price,
+            shipping: { free_shipping } }) => (
+              <Product key={ id }>
+                <ProductsList
+                  id={ id }
+                  title={ title }
+                  thumbnail={ thumbnail }
+                  price={ price }
+                  shipping={ free_shipping }
+                />
+                <button
+                  id={ id }
+                  title={ title }
+                  name={ price }
+                  data-testid="product-add-to-cart"
+                  onClick={ (event) => handle(event) }
+                >
+                  Adicionar ao carrinho
 
-      <div>
-        {showProducts ? infoProducts.map(({ id, title, thumbnail, price,
-          shipping: { free_shipping } }) => (
-            <div key={ id }>
-              <ProductsList
-                id={ id }
-                title={ title }
-                thumbnail={ thumbnail }
-                price={ price }
-                shipping={ free_shipping }
-              />
-              <button
-                id={ id }
-                title={ title }
-                name={ price }
-                data-testid="product-add-to-cart"
-                onClick={ (event) => handle(event) }
-              >
-                Adicionar ao carrinho
-
-              </button>
-            </div>
-        )) : <p>Nenhum produto foi encontrado</p>}
-
-      </div>
+                </button>
+              </Product>
+          )) : <p>Nenhum produto foi encontrado</p>}
+        </ProductList>
+      </ProductsContainer>
 
     </HomeContainer>
   );
