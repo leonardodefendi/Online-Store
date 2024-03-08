@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import BsFillCartCheckFill from 'react-icons/bs';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 import BuscarCategorias from '../components/BuscarCategorias';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 import { ProductsList } from '../components/ProductsList';
 import { HomeContainer, CategoryContainer,
   Input, ButtonSearch, Header, CarrinhoBtn,
   InputContainer, Message, ProductsContainer,
-  Product, ProductList } from '../styles/home.styled';
+  Product, ProductList, ProductNotFound } from '../styles/home.styled';
 
 type ProdutosType = {
   title:string,
@@ -57,15 +57,16 @@ export function Home({ handle, quantidade }: HomeProps) {
 
           </ButtonSearch>
         </InputContainer>
-        <h1>Frontend Online Store</h1>
+        <h1>
+          Frontend Online Store 🛒
+        </h1>
         <Link to="/cart" data-testid="shopping-cart-button ">
           <CarrinhoBtn>
-            Carrinho
+            <img src="/public/carrinho.svg" alt="Star" width={ 35 } />
+            <p data-testid="shopping-cart-size">
+              {quantidade}
+            </p>
           </CarrinhoBtn>
-          <p data-testid="shopping-cart-size">
-            {quantidade}
-
-          </p>
         </Link>
       </Header>
       {show && (
@@ -101,7 +102,7 @@ export function Home({ handle, quantidade }: HomeProps) {
 
                 </button>
               </Product>
-          )) : <p>Nenhum produto foi encontrado</p>}
+          )) : <ProductNotFound> Nenhum produto foi encontrado </ProductNotFound>}
         </ProductList>
       </ProductsContainer>
 

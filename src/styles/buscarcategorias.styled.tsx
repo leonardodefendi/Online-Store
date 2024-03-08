@@ -7,7 +7,7 @@ export const Category = styled.div`
 export const RadioContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 500px;
+  width: 390px;
 `;
 export const DivContainer = styled.div`
   display: flex;

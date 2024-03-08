@@ -72,9 +72,17 @@ function App() {
   return (
     <ThemeProvider theme={ isDarkTheme ? dark : ligth }>
       <GlobalStyles />
-      <button onClick={ toggleTheme }>
-        {!theme ? <FiMoon /> : <BsLightningCharge />}
-      </button>
+      <div style={ { backgroundColor: 'rgba(0, 59, 229, 1)' } }>
+        {/* <button onClick={ toggleTheme }> */}
+        {!theme ? <FiMoon
+          onClick={ toggleTheme }
+          style={ { cursor: 'pointer' } }
+        /> : <BsLightningCharge
+          onClick={ toggleTheme }
+          style={ { cursor: 'pointer' } }
+        />}
+        {/* </button> */}
+      </div>
       <Routes>
         <Route
           element={ <Home
